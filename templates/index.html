@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knapsack</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+
+    h1 {
+        text-align: center;
+        width: 100%;
+    }
+
+
+
+
+    form {
+        width: 40%;
+        margin-right: 20px;
+        padding: 20px;
+        color: #fff;        
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        padding: 10px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .table_container{
+        margin-top: 20Px;
+        width: 50%;
+        overflow: scroll;
+        max-height: 90vh;
+        
+    }
+    table {
+        border-collapse: collapse;
+        
+    }
+
+    .blue {
+        background:  rgba(0, 0, 0, 0.5); 
+    }
+
+    td {
+        border: 1px solid black;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background:rgba(58, 143, 233, 0.5);
+    }
+</style>
+
+<body>
+
+    <form action="/" method="POST">
+        <h1>Knapsack</h1>
+        <label for="weight_capacity">Weight Capacity:</label>
+        <input type="number" id="weight_capacity" name="weight_capacity" required><br><br>
+
+        <label for="weight_values">Weight Values (comma-separated):</label>
+        <input type="text" id="weight_values" name="weight_values" required><br><br>
+
+        <label for="profit_values">Profit Values (comma-separated):</label>
+        <input type="text" id="profit_values" name="profit_values" required><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+    <div class="table_container">
+    <table>
+        {% if table|length != 0 %}       
+        <thead>         
+            <tr>
+                <th class="blue">Profit</th>
+                <th class="blue">Weight</th>
+                {%for colunm in range(table[0]|length)%}
+                <th class="blue">{{colunm}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+
+            {%for row in range(table|length)%}
+            <tr>
+                <td class="blue">{{profit[row]}}</td>
+                <td class="blue">{{weight[row]}}</td>
+                {%for colunm in range(table[row]|length)%}
+                <td>{{table[row][colunm]}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {%endif%}
+    </table>
+</div>
+
+</body>
+
+</html>
