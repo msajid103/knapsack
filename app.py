@@ -27,7 +27,7 @@ def knapsack(capacity,weight,profit):
     selected_values =sorted([])
     for i in range(len(profit_value),0,-1):
         if table[i][last_index] != table[i-1][last_index]:         
-            selected_values.append(weight_value[i-1])
+            selected_values.append(i)
             last_index -= weight_value[i-1]
 
     return weight_value,profit_value,table,selected_values     
@@ -41,7 +41,7 @@ def index():
 
         # calling knapsack function for calcultaion
         weight_value,profit_value,table,selected_weights  =  knapsack(weight_capacity,weight_values,profit_values)       
-        
+        print('weights_index = ',selected_weights)
         
         return render_template("index.html",weight=[0]+weight_value,profit =[0]+ profit_value, table=table, selected_weights=selected_weights)
     

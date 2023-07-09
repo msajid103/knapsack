@@ -39,8 +39,13 @@
 
             {%for row in range(table|length)%}
             <tr>
+                {% if row in selected_weights %} 
+                    <td class="green">{{profit[row]}}</td>
+                    <td class="green">{{weight[row]}}</td>
+                {% else %}
                 <td class="blue">{{profit[row]}}</td>
-                <td class="blue">{{weight[row]}}</td>
+                <td class="blue">{{weight[row]}}</td>                   
+                {%endif%}
                 {%for colunm in range(table[row]|length)%}
                 <td>{{table[row][colunm]}}</td>
                 {% endfor %}

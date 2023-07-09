@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
 }
 
 h1 {
@@ -19,7 +19,7 @@ form {
     width: 40%;
     margin-right: 20px;
     padding: 20px;
-    color: #fff;        
+    color: #fff;
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -39,28 +39,36 @@ input[type="text"] {
 
 input[type="submit"] {
     padding: 10px;
-    background-color:rgba(58, 143, 233, 1);
+    background-color: rgba(58, 143, 233, 1);
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
-.table_container{
+
+.table_container {
     margin-top: 20Px;
     width: 40%;
     max-height: 90vh;
     overflow: scroll;
-    
+
 }
+
 table {
     border-collapse: collapse;
-    
 
-    
+
+
 }
 
 .blue {
-    background:  rgba(0, 0, 0, 0.5); 
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.green {
+    background: rgba(78, 234, 5, 0.5);
+    width: 10px;
+    height: 10px;
 }
 
 td {
@@ -68,25 +76,24 @@ td {
     width: 30px;
     height: 30px;
     text-align: center;
-    background:rgba(58, 143, 233, 0.5);
+    background: rgba(58, 143, 233, 0.5);
 }
 
 
 
 /* resposive design */
 @media (max-width: 768px) {
-    body{
-    flex-direction: column;
-        
+    body {
+        flex-direction: column;
+
     }
 
     form {
         width: 90%;
     }
 
-    .table_container{
+    .table_container {
         width: 90%;
     }
-   
-  }
-  
+
+}
