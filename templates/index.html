@@ -8,54 +8,131 @@
 
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
+    <section class="main">
+        <div class="form">
+            <h1>Knapsack</h1>
+            <form action="/" method="POST" onsubmit="validateForm()">                
+                <label for="weight_capacity">Weight Capacity:</label>
+                <input type="number" id="weight_capacity" name="weight_capacity" required><br><br>
 
-    <form action="/" method="POST">
-        <h1>Knapsack</h1>
-        <label for="weight_capacity">Weight Capacity:</label>
-        <input type="number" id="weight_capacity" name="weight_capacity" required><br><br>
+                <label for="weight_values">Weight Values (comma-separated):</label>
+                <input type="text" id="weight_values" name="weight_values" required><br><br>
 
-        <label for="weight_values">Weight Values (comma-separated):</label>
-        <input type="text" id="weight_values" name="weight_values" required><br><br>
+                <label for="profit_values">Profit Values (comma-separated):</label>
+                <input type="text" id="profit_values" name="profit_values" required><br><br>
+                <button class="btn"type="submit" name="action" value="Calculate"><a   href="#go" >Calculate</a></button>
+            
+            </form>
+        </div>
+    </section>
+    <section class="table" >
+        <h1 id ="go"><span>C</span>
+        <span>A</span>
+        <span>L</span>
+        <span>C</span>
+        <span>U</span>
+        <span>L</span>
+        <span>A</span>
+        <span>O</span>
+        <span>T</span>
+        <span>I</span>
+        <span>N</span>
+        <span>S</span></h1>
+        <div class="tables" >
+            <div class="knapsack">
+                <table>
+                    <h1>0/1 Knapsack Analysis</h1>
+                    {% if table|length != 0 %}
+                    <thead>
+                        <tr>
+                            <th>Profit</th>
+                            <th>Weight</th>
+                            {%for colunm in range(table[0]|length)%}
+                            <th>{{colunm}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
 
-        <label for="profit_values">Profit Values (comma-separated):</label>
-        <input type="text" id="profit_values" name="profit_values" required><br><br>
+                        {%for row in range(table|length)%}
+                        <tr>
+                            {% if row in selected_weights %}
+                            <td class="green">{{profit[row]}}</td>
+                            <td class="green">{{weight[row]}}</td>
+                            {% else %}
+                            <td >{{profit[row]}}</td>
+                            <td >{{weight[row]}}</td>
+                            {%endif%}
+                            {%for colunm in range(table[row]|length)%}
+                            <td class="blue">{{table[row][colunm]}}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {%endif%}
+                </table>
+                <h1 class="pro">Profit = {{prof}}</h1>
+            </div>
 
-        <input type="submit" value="Calculate">
-    </form>
-    <div class="table_container">
-    <table>
-        {% if table|length != 0 %}       
-        <thead>         
-            <tr>
-                <th class="blue">Profit</th>
-                <th class="blue">Weight</th>
-                {%for colunm in range(table[0]|length)%}
-                <th class="blue">{{colunm}}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
+            <div class="fractional">
+                <table>
+                    <h1>Fractional Analysis</h1> 
+                    {% if table|length != 0 %}                            
+                    <thead>     
+                        <tr>                                                 
+                            <th>i</th>
+                            {%for colunm in range(fraction|length)%}
+                            <th>{{colunm+1}}</th>
+                            {% endfor %}                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Profit</td>
+                            {%for colunm in range(profit_ls|length)%}
+                            <td class="blue">{{profit_ls[colunm]}}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            {%for colunm in range(weight_ls|length)%}
+                            <td class="blue">{{weight_ls[colunm]}}</td>
+                            {% endfor %} 
+                        </tr>
+                        <tr>
+                            <td>P/W</td>
+                            {%for colunm in range(fraction|length)%}
+                            <td class="blue">{{fraction[colunm]}}</td>
+                            {% endfor %} 
+                            
+                        </tr>
+                    </tbody>
+                    {%endif%}
+                </table>
+                <h1 class="pro">Profit = {{profit_val}}</h1>
 
-            {%for row in range(table|length)%}
-            <tr>
-                {% if row in selected_weights %} 
-                    <td class="green">{{profit[row]}}</td>
-                    <td class="green">{{weight[row]}}</td>
-                {% else %}
-                <td class="blue">{{profit[row]}}</td>
-                <td class="blue">{{weight[row]}}</td>                   
-                {%endif%}
-                {%for colunm in range(table[row]|length)%}
-                <td>{{table[row][colunm]}}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-        {%endif%}
-    </table>
-</div>
-
+            </div>
+        </div>
+    </section>
+    <script>
+        function validateForm() {
+            var weightValues = document.getElementById("weight_values").value;
+            var profitValues = document.getElementById("profit_values").value;
+    
+            var weightArray = weightValues.split(",");
+            var profitArray = profitValues.split(",");
+    
+            if (weightArray.length !== profitArray.length) {
+                alert("Error: Length of weight values must be equal to length of profit values");
+                event.preventDefault(); // Prevent form submission
+            }else {
+            // Scroll to the tables section
+            document.getElementById("tables-section").scrollIntoView({ behavior: 'smooth' });
+        }
+        }
+    </script>
 </body>
 
 </html>

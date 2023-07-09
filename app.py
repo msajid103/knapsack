@@ -25,12 +25,48 @@ def knapsack(capacity,weight,profit):
     # back tracking
     last_index = capacity
     selected_values =sorted([])
+    prof = 0
     for i in range(len(profit_value),0,-1):
         if table[i][last_index] != table[i-1][last_index]:         
             selected_values.append(i)
+            prof += profit_value[i-1]
             last_index -= weight_value[i-1]
+   
 
-    return weight_value,profit_value,table,selected_values     
+    return prof, weight_value,profit_value,table,selected_values     
+
+
+def fractional_knapsack(capacity,weight,profit):
+
+    fractional_value = []
+    for i in range(len(weight)):
+        if weight[i] != 0:
+            fractional_value.append(round(profit[i]/weight[i],2))
+        else:
+            fractional_value.append(0)
+
+
+        
+    fraction = sorted(fractional_value, reverse=True)    
+    profit_value = []
+    weight_value = []
+    for i in fraction:
+        profit_value.append(profit[fractional_value.index(i)])
+        weight_value.append(weight[fractional_value.index(i)])
+        
+    profit_no = 0
+    remainin_weight = capacity
+    for i in range(len(weight_value)):
+        if remainin_weight > weight_value[i]:
+            profit_no += profit_value[i]
+            remainin_weight -= weight_value[i]
+        elif weight_value[i] != 0:
+            profit_no += (remainin_weight/weight_value[i])*profit_value[i]
+            break
+    return round(profit_no,2),fraction, profit_value  , weight_value  
+
+
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -38,13 +74,14 @@ def index():
         weight_capacity = int(request.form['weight_capacity'])
         weight_values = list(map(int, request.form['weight_values'].split(',')))
         profit_values = list(map(int, request.form['profit_values'].split(',')))
-
+        if len( weight_values) == len(profit_values):
         # calling knapsack function for calcultaion
-        weight_value,profit_value,table,selected_weights  =  knapsack(weight_capacity,weight_values,profit_values)       
-        print('weights_index = ',selected_weights)
-        
-        return render_template("index.html",weight=[0]+weight_value,profit =[0]+ profit_value, table=table, selected_weights=selected_weights)
+            prof,weight_value,profit_value,table,selected_weights  =  knapsack(weight_capacity,weight_values,profit_values) 
+
+            profit_val,fraction, profit_ls, weight_ls  = fractional_knapsack(weight_capacity,weight_values,profit_values)           
+            return render_template("index.html",prof = prof, weight=[0]+weight_value,profit =[0]+ profit_value, table=table, selected_weights=selected_weights,profit_val =profit_val,fraction = fraction, profit_ls = profit_ls, weight_ls=weight_ls)
     
+           
     return render_template("index.html",weight = [],profit = [], table=[])
 
 if __name__ == '__main__':
