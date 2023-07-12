@@ -56,14 +56,18 @@ def fractional_knapsack(capacity,weight,profit):
         
     profit_no = 0
     remainin_weight = capacity
+    ind = 0
     for i in range(len(weight_value)):
+        ind += 1
         if remainin_weight > weight_value[i]:
             profit_no += profit_value[i]
-            remainin_weight -= weight_value[i]
+            remainin_weight -= weight_value[i]        
         elif weight_value[i] != 0:
             profit_no += (remainin_weight/weight_value[i])*profit_value[i]
             break
-    return round(profit_no,2),fraction, profit_value  , weight_value  
+    return round(profit_no,2),fraction, profit_value  , weight_value ,ind 
+
+
 
 
     
@@ -78,8 +82,8 @@ def index():
         # calling knapsack function for calcultaion
             prof,weight_value,profit_value,table,selected_weights  =  knapsack(weight_capacity,weight_values,profit_values) 
 
-            profit_val,fraction, profit_ls, weight_ls  = fractional_knapsack(weight_capacity,weight_values,profit_values)           
-            return render_template("index.html",prof = prof, weight=[0]+weight_value,profit =[0]+ profit_value, table=table, selected_weights=selected_weights,profit_val =profit_val,fraction = fraction, profit_ls = profit_ls, weight_ls=weight_ls)
+            profit_val,fraction, profit_ls, weight_ls, ind  = fractional_knapsack(weight_capacity,weight_values,profit_values)           
+            return render_template("index.html",prof = prof, weight=[0]+weight_value,profit =[0]+ profit_value, table=table, selected_weights=selected_weights,profit_val =profit_val,fraction = fraction, profit_ls = profit_ls, weight_ls=weight_ls,ind = ind)
     
            
     return render_template("index.html",weight = [],profit = [], table=[])

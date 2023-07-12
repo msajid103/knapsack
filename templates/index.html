@@ -22,27 +22,27 @@
 
                 <label for="profit_values">Profit Values (comma-separated):</label>
                 <input type="text" id="profit_values" name="profit_values" required><br><br>
-                <button class="btn" type="submit" id="submit" name="action" value="Calculate">Calculate</button>         
+                <button class="btn" type="submit" id="submit" name="action" value="Calculate">Calculate</button>
 
             </form>
-            <span class="result">To See Result: <a href="#go">Click Here</a></span> 
+            <span class="result">To See Result: <a href="#go">Click Here</a></span>
         </div>
     </section>
-    <section class="table" id="go" >
-        <h1 ><span>C</span>
+    <section class="table" id="go">
+        <h1><span>C</span>
             <span>A</span>
             <span>L</span>
             <span>C</span>
             <span>U</span>
             <span>L</span>
             <span>A</span>
-            <span>O</span>
             <span>T</span>
             <span>I</span>
+            <span>O</span>
             <span>N</span>
             <span>S</span>
         </h1>
-        <div class="tables" >
+        <div class="tables">
             <div class="knapsack">
                 <table>
                     <h1>0/1 Knapsack Analysis</h1>
@@ -78,7 +78,7 @@
                 <h1 class="pro">Profit = {{prof}}</h1>
             </div>
 
-            <div class="fractional" >
+            <div class="fractional">
                 <table>
                     <h1>Fractional Analysis</h1>
                     {% if table|length != 0 %}
@@ -94,7 +94,11 @@
                         <tr>
                             <td>Profit</td>
                             {%for colunm in range(profit_ls|length)%}
+                            {% if ind >= loop.index %}
+                            <td class="green">{{profit_ls[colunm]}}</td>
+                            {% else %}
                             <td class="blue">{{profit_ls[colunm]}}</td>
+                            {%endif%}
                             {% endfor %}
                         </tr>
                         <tr>
@@ -119,29 +123,34 @@
         </div>
     </section>
     <script>
-   
-      function validateForm() {
-          var weightValues = document.getElementById("weight_values").value;
-          var profitValues = document.getElementById("profit_values").value;
+        function checkString(array) {
+            return array.every(element => {
+                return typeof element === 'number';
+            });
+        }
 
-          var weightArray = weightValues.split(",");
-          var profitArray = profitValues.split(",");
+        function validateForm() {
+            var weightValues = document.getElementById("weight_values").value;
+            var profitValues = document.getElementById("profit_values").value;
 
-          if (weightArray.length !== profitArray.length) {
-              alert("Error: Length of weight values must be equal to length of profit values");
-              event.preventDefault(); // Prevent form submission
-          } 
-      }
-      window.addEventListener('resize', function () {
-          if (window.innerWidth < 780) {
-              var Heading = document.getElementById('go');
-              console.log(Heading)
-              Heading.innerHTML = 'Calculations';
-          } 
+            var weightArray = weightValues.split(",");
+            var profitArray = profitValues.split(",");
 
-      });
+            if (weightArray.length !== profitArray.length) {
+                alert("Error: Length of weight values must be equal to length of profit values");
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+        window.addEventListener('resize', function () {
+            if (window.innerWidth < 780) {
+                var Heading = document.getElementById('go');
+                console.log(Heading)
+                Heading.innerHTML = 'Calculations';
+            }
 
-  </script>
+        });
+
+    </script>
 </body>
 
 </html>
