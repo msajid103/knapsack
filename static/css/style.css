@@ -7,6 +7,9 @@ body {
 html {
     scroll-behavior: smooth;
 }
+.error_message {
+    color: red;
+}
 
 
 /* ________________Utility classes______________ */

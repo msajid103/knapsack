@@ -23,6 +23,8 @@
                 <label for="profit_values">Profit Values (comma-separated):</label>
                 <input type="text" id="profit_values" name="profit_values" required><br><br>
                 <button class="btn" type="submit" id="submit" name="action" value="Calculate">Calculate</button>
+                <span id="error_message" class="error_message"></span>
+
 
             </form>
             <span class="result">To See Result: <a href="#go">Click Here</a></span>
@@ -133,14 +135,56 @@
             var weightValues = document.getElementById("weight_values").value;
             var profitValues = document.getElementById("profit_values").value;
 
-            var weightArray = weightValues.split(",");
-            var profitArray = profitValues.split(",");
+            // Check if weight values and profit values are separated by commas
+            var weightArray = weightValues.split(",").map(function (value) {
+                return value.trim();
+            });
 
+            var profitArray = profitValues.split(",").map(function (value) {
+                return value.trim();
+            });
+
+            // Check if the length of weight values is equal to the length of profit values
             if (weightArray.length !== profitArray.length) {
-                alert("Error: Length of weight values must be equal to length of profit values");
+                var errorSpan = document.getElementById("error_message");
+                errorSpan.textContent = "Length of weight values must be equal to length of profit values";
                 event.preventDefault(); // Prevent form submission
+                return;
             }
+
+            // Check if all elements in the weight and profit arrays are integers
+            var isValid = weightArray.every(function (value) {
+                return Number.isInteger(parseInt(value));
+            }) && profitArray.every(function (value) {
+                return Number.isInteger(parseInt(value));
+            });
+
+            if (!isValid) {
+                var errorSpan = document.getElementById("error_message");
+                errorSpan.textContent = "All elements must be integers";
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            // Check if any value is empty or contains spaces
+            var isValuesValid = weightArray.every(function (value) {
+                return value !== "" && !value.includes(" ");
+            }) && profitArray.every(function (value) {
+                return value !== "" && !value.includes(" ");
+            });
+
+            if (!isValuesValid) {
+                var errorSpan = document.getElementById("error_message");
+                errorSpan.textContent = "All values must be separated by comma";
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+            // If all validations pass, display success message
+            var errorSpan = document.getElementById("error_message");
+            errorSpan.textContent = "Successfully Calculated ";
+            errorSpan.style.color = "green";
         }
+
         window.addEventListener('resize', function () {
             if (window.innerWidth < 780) {
                 var Heading = document.getElementById('go');
